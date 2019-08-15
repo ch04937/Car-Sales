@@ -5,35 +5,28 @@ import AddedFeatures from './components/AddedFeatures';
 import AdditionalFeatures from './components/AdditionalFeatures';
 import Total from './components/Total';
 
+import { removeFeature, buyFeature} from './actions';
+import { connect } from 'react-redux';
 
-function App() {
-  // const removeFeature = item => {
-  //   // dispatch an action here to remove an item
-  // };
-
-  // const buyItem = item => {
-  //   // dipsatch an action here to add an item
-  // };
-  function reducer() {
-    return {
-      title: 'hello'
-
-    }
-
-  }
-
+const App = (props) => {
+  const { state, buyFeature, removeFeature } = props;
   return (
-    <div className="boxes">
+    <div className="boxes" >
       <div className="box">
-        <Header />
-        {/* <AddedFeatures /> */}
+        <Header car={state.car} />
+        <AddedFeatures car={state.car} removeFeature={removeFeature} />
       </div>
       <div className="box">
-        {/* <AdditionalFeatures />
-        <Total  /> */}
+        <AdditionalFeatures store={state.store} buyFeature={buyFeature} />
+        <Total  car= {state.car} additionalPrice={state.additionalPrice} />
       </div>
     </div>
   );
   }
 
-export default App;
+  const mapStateToProps =(state) => {
+    return{
+      state: state
+    };
+  };
+export default connect(mapStateToProps, { buyFeature, removeFeature })(App);
